@@ -1,0 +1,25 @@
+footer {
+  border-color: var(--colour-muted);
+  border-top-style: solid;
+  border-top-width: 1px;
+  box-sizing: border-box;
+  color: var(--colour-text);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 8px;
+  margin-top: 32px;
+  min-width: 0;
+  padding-top: 16px;
+  position: relative;
+
+  nav {
+    position: relative;
+
+    .link {
+      & + &::before {
+        content: ' | ';
+      }
+    }
+  }
+}

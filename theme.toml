@@ -1,0 +1,16 @@
+name = "recipes"
+license = "MIT"
+licenselink = "https://github.com/butlerx/hugo-recipes/blob/master/LICENSE.md"
+description = "A recipe theme for Hugo"
+homepage = "https://github.com/butlerx/hugo-recipes"
+tags = ["recipes", "cooking", "responsive", "clean"]
+features = ["analytics", "favicon"]
+min_version = "0.58"
+
+[author]
+  name = "Cian Butler"
+  homepage = "https://cianbutler.ie"
+
+[original]
+  name = "gatsby-theme-recipes"
+  repo = "https://github.com/mariiinda/gatsby-theme-recipes"

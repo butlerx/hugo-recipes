@@ -1,0 +1,99 @@
+.home {
+  .description {
+    margin: 0 auto nth($space, 3);
+    padding: 0 0 nth($space, 3);
+    text-align: center;
+  }
+
+  .recipes {
+    clear: both;
+    display: grid;
+    grid-auto-rows: 200px;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    padding-top: 40px;
+    width: 100%;
+    @media (min-width: 520px) {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    @media (min-width: 768px) {
+      display: grid;
+      grid-auto-rows: 160px;
+      grid-template-areas:
+        'i1 i1 i2'
+        'i1 i1 i2'
+        'i3 i4 i4'
+        'i3 i4 i4'
+        'i5 i5 i6'
+        'i5 i5 i6'
+        'i7 i8 i8'
+        'i7 i8 i8'
+        'i9 i9 i10'
+        'i9 i9 i10'
+        'i11 i12 i12'
+        'i11 i12 i12';
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      a {
+        background: var(--colour-grey);
+        box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+        color: var(--colour-text);
+        display: flex;
+        flex-direction: column;
+        font-size: nth($font-sizes, 5);
+        height: 100%;
+        letter-spacing: 1px;
+        overflow: hidden;
+        position: relative;
+        text-decoration: none;
+        transition: 0.5s ease-in-out;
+        width: 100%;
+        will-change: auto;
+        &:hover,
+        &:focus {
+          color: var(--colour-text);
+        }
+        &:hover {
+          img {
+            transform: scale(1.1);
+          }
+        }
+      }
+
+      .image {
+        flex: 0 1 80%;
+
+        &-wrapper {
+          background-size: cover;
+          box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
+          height: 100%;
+          padding-bottom: 0;
+          position: absolute;
+          resize: both;
+          transform-origin: center;
+          transition: 0.6s ease-out;
+          width: 100%;
+          will-change: auto;
+        }
+      }
+
+      .title {
+        align-items: center;
+        display: flex;
+        flex: 1 1 50px;
+        font-size: nth($font-sizes, 3);
+        justify-content: center;
+        text-align: center;
+        text-transform: capitalize;
+        @media (min-width: get($sizes, 'md')) {
+          font-size: nth($font-sizes, 2);
+        }
+        @media (min-width: get($sizes, 'lg')) {
+          font-size: nth($font-sizes, 3);
+        }
+      }
+    }
+  }
+}

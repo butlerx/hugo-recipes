@@ -1,0 +1,30 @@
+{{ if .Site.IsServer }}
+  {{ $options := (dict "targetPath" "css/_style.css" "enableSourceMap" true ) }}
+  {{ $style := resources.Get "scss/main.scss" | resources.ToCSS $options }}
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ $style.RelPermalink }}"
+    media="screen"
+  />
+{{ else }}
+  {{ $options := (dict "targetPath" "css/_style.css" "outputStyle" "compressed") }}
+  {{ $style := resources.Get "scss/main.scss" | resources.ToCSS $options  | minify | resources.Fingerprint "sha512"}}
+  <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $style.Data.Integrity }}" >
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ $style.RelPermalink }}"
+    integrity="{{ $style.Data.Integrity }}"
+    crossorigin="anonymous"
+    media="screen"
+  />
+{{ end }}
+
+{{ range .Site.Params.custom_css }}
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ . | absURL }}"
+  />
+{{ end }}

@@ -1,0 +1,45 @@
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <meta name="theme-color" content="#FFF" />
+
+  {{- with .Site.Params.description -}}
+    <meta name="description" content="{{ . }}" />
+    <meta property="og:description" content="{{ . }}" />
+  {{- end -}}
+  {{- with .Site.Params.keywords -}}
+    <meta name="keywords" content="{{ delimit . "," }}"/>
+  {{- end -}}
+  {{- with .Site.Params.author -}}
+    <meta name="author" content="{{ . }}"/>
+  {{- end -}}
+
+  <meta name="twitter:card" content="summary"/>
+  {{- with .Site.Params.twitter -}}
+    <meta name="twitter:creator" content="@{{ . }}"/>
+  {{- end -}}
+  <meta property="og:type" content="application"/>
+
+  <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
+  <meta property="og:title"
+    {{- if .Params.title -}}
+      content="{{- .Params.Title }} | {{ .Site.Title -}}"
+    {{- else -}}
+      content="{{ .Site.Title -}}"
+    {{- end -}}
+  />
+  <meta property="og:url" content="{{ .Site.BaseURL }}"/>
+  <meta property="og:site_name" content="{{ .Site.Title }}"/>
+  {{ partial "head/styles.html" . }}
+  {{ partial "head/favicon.html" . }}
+
+  <link rel="canonical" href="{{ .Permalink }}"/>
+  <link
+    rel="manifest"
+    href="{{ "index.webmanifest" | relLangURL }}"
+  />
+  {{ hugo.Generator }}
+</head>

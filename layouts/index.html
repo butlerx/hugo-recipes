@@ -1,0 +1,29 @@
+{{ define "content" }}
+  <div class="home">
+    <div class="description">{{ .Content }}</div>
+    <!--  <Tags tags={tags.group} /> -->
+    <div class="recipes">
+      {{ range  $index, $element := sort (where .Site.RegularPages "Section" "recipes") "Title" }}
+        <div style="grid-area: i{{ add $index 1 }}" class="card">
+          <a href="{{ $element.RelPermalink }}">
+            {{ with $element.Resources.ByType "image" }}
+              {{ range first 1 . }}
+                <div class="image">
+                  <div
+                    class="image-wrapper"
+                    style="background-image:url({{$.Site.BaseURL}}{{ .RelPermalink }});"
+                  ></div>
+                </div>
+              {{ end }}
+            {{ else }}
+              <div class="image"></div>
+            {{ end }}
+            <div class="title">
+              {{ $element.Title }}
+            </div>
+          </a>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}

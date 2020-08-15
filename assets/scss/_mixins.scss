@@ -1,0 +1,38 @@
+@mixin link($size: inherit) {
+  align-items: center;
+  color: var(--colour-text);
+  display: inline-block;
+  font-size: $size;
+  position: relative;
+  text-decoration: none;
+  transition: color 0.25s ease-in-out;
+
+  &:hover {
+    color: var(--colour-primary);
+  }
+
+  &.active {
+    color: var(--colour-primary);
+  }
+
+  &::before {
+    background: currentColor;
+    bottom: -2px;
+    content: '';
+    display: block;
+    height: 2px;
+    left: 0;
+    opacity: 0.7;
+    position: absolute;
+    transition: width 0.25s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    width: 0;
+    z-index: 9;
+  }
+
+  &:hover,
+  &:focus {
+    &::before {
+      width: 100%;
+    }
+  }
+}

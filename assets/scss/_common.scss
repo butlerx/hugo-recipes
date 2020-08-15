@@ -1,0 +1,19 @@
+.link {
+  @include link;
+}
+
+.back-link {
+  @include link($font-size-small);
+  align-self: flex-start;
+}
+
+.page-link {
+  @include link;
+  display: inline;
+  text-decoration: underline;
+  word-break: break-word;
+
+  &::before {
+    display: none;
+  }
+}
