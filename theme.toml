@@ -10,7 +10,3 @@ min_version = "0.58"
 [author]
   name = "Cian Butler"
   homepage = "https://cianbutler.ie"
-
-[original]
-  name = "gatsby-theme-recipes"
-  repo = "https://github.com/mariiinda/gatsby-theme-recipes"

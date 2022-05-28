@@ -1,14 +1,20 @@
-{{ define "title" }}
-{{ .Title }} · {{ .Site.Title }}
-{{ end }}
+{{ define "main" }}
+<header>
+  <h1>{{ .Title | title }}</h1>
+</header>
 
-{{ define "content" }}
-<section class="container page">
-  <article>
-    <header>
-      <h1>{{ .Title }}</h1>
-    </header>
-    {{ .Content }}
-  </article>
-</section>
+{{ if isset .Params "recipe_image" -}}
+  <figure class="image">
+    <img
+      src="{{ .Permalink | absURL }}{{ .Params.recipe_image }}"
+      alt="Recipe image"
+      style="border-radius: 3%; width: auto; max-height: 512px;"
+    />
+  </figure>
+{{ end -}}
+
+{{ partial "stats" . }}
+
+{{ .Content }}
+
 {{ end }}

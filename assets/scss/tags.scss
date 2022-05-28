@@ -1,0 +1,13 @@
+@use "colours";
+
+#tag-cloud {
+  a {
+    color: colours.$orange;
+  }
+}
+
+.tag-list {
+  text-align: center;
+  margin-bottom: 2em;
+  margin-top: 2em;
+}

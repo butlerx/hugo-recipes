@@ -1,45 +1,63 @@
 <head>
+  <title>
+    {{ if not .IsHome }}{{ .Title | title }} | {{ end }}{{ .Site.Title }}
+  </title>
   <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {{- $image := resources.Get "images/icon.png" -}}
+  {{- $favicon := $image.Resize "32x32" -}}
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="{{ $favicon.RelPermalink }}"
   />
-  <meta name="theme-color" content="#FFF" />
-
+  <link
+    rel="icon"
+    type="image/x-icon"
+    href="{{ $favicon.RelPermalink }}"
+  />
+  {{- $options := dict "transpiler" "dartsass" "targetPath" "styles.css" "outputStyle" "compressed" }}
+  {{- $style := resources.Get "scss/main.scss" | resources.ToCSS $options | resources.Fingerprint "sha512" }}
+  <link
+    rel="stylesheet"
+    href="{{ $style.RelPermalink }}"
+    type="text/css"
+    {{/* integrity="{{ $style.Data.Integrity }}" */}}
+    crossorigin="anonymous"
+  />
+  {{- with .Params.tags -}}
+    <meta name="keywords" content="{{ delimit . "," }}">
+  {{- end -}}
   {{- with .Site.Params.description -}}
     <meta name="description" content="{{ . }}" />
-    <meta property="og:description" content="{{ . }}" />
   {{- end -}}
-  {{- with .Site.Params.keywords -}}
-    <meta name="keywords" content="{{ delimit . "," }}"/>
-  {{- end -}}
-  {{- with .Site.Params.author -}}
-    <meta name="author" content="{{ . }}"/>
-  {{- end -}}
+  {{ with  .OutputFormats.Get "rss" -}}
+    <link
+      rel="{{ .Rel }}"
+      type="{{ .MediaType.Type }}"
+      title="{{ $.Site.Title }} RSS "
+      href="{{ .Permalink }}"
+     />
+  {{ end -}}
 
-  <meta name="twitter:card" content="summary"/>
-  {{- with .Site.Params.twitter -}}
-    <meta name="twitter:creator" content="@{{ . }}"/>
+  <base href="{{ .Site.BaseURL }}">
+  <link rel="canonical" href="{{ .Permalink | absURL }}">
+  <link rel="manifest" href="{{ absURL "manifest.json" }}" />
+  <meta name="theme-color" content="{{ .Site.Params.theme }}" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="{{ .Site.Params.theme }}" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Recipe",
+      "image" : {{ apply .Params.images "absURL" "." }},
+      "name": "{{- if .Params.title -}} {{- .Params.title -}} {{- else -}} {{- .Site.Title }} {{- end -}}"
+    }
+  </script>
+
+  {{- with .Site.Author.name -}}
+    <meta name="author" content="{{ . }}" />
   {{- end -}}
-  <meta property="og:type" content="application"/>
-
-  <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
-  <meta property="og:title"
-    {{- if .Params.title -}}
-      content="{{- .Params.Title }} | {{ .Site.Title -}}"
-    {{- else -}}
-      content="{{ .Site.Title -}}"
-    {{- end -}}
-  />
-  <meta property="og:url" content="{{ .Site.BaseURL }}"/>
-  <meta property="og:site_name" content="{{ .Site.Title }}"/>
-  {{ partial "head/styles.html" . }}
-  {{ partial "head/favicon.html" . }}
-
-  <link rel="canonical" href="{{ .Permalink }}"/>
-  <link
-    rel="manifest"
-    href="{{ "index.webmanifest" | relLangURL }}"
-  />
-  {{ hugo.Generator }}
 </head>

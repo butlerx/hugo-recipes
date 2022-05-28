@@ -1,0 +1,14 @@
+{
+  "name": "{{ .Site.Title }}",
+  "short_name": "{{ .Site.Title }}",
+  "icons": [],
+  "start_url": "/",
+  "display": "standalone",
+  "default_locale": "en",
+  "orientation": "portrait",
+  "background_color": "{{ .Site.Params.theme }}",
+  "theme_color": "{{ .Site.Params.theme }}",
+  "description": "{{ .Site.Params.description }}",
+  "author": "{{ .Site.Author.Name }}",
+  "manifest_version": 2
+}

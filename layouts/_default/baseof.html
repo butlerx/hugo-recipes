@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
-  {{ partial "head.html" . }}
+<html
+  lang="{{ .Site.Language }}"
+  prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"
+>
+  {{- partial "head.html" . -}}
   <body>
-    <div class="container">
-      <div class="wrapper">
-        {{ partial "header.html" . }}
-        <main class="content">
-          {{ block "content" . }}{{ end }}
-        </main>
-        {{ partial "footer.html" . }}
-        {{ if .Site.GoogleAnalytics }}
-          {{ template "_internal/google_analytics.html" . }}
-        {{ end }}
-      </div>
-    </div>
+    {{ partial "nav.html" . }}
+    <main>
+    {{- block "main" . }}{{ end }}
+    {{ if isset .Params "tags" -}}
+      {{ $tagsLen := len .Params.tags -}}
+      {{ if gt $tagsLen 0 -}}
+        <div class=tag-list>
+          See related:</br>
+          {{ range $k, $v := .Params.tags }}
+            <a href="{{ printf "tags/%s" (. | urlize | lower) | absURL }}">{{ . | title }}</a>
+            {{ if lt $k (sub $tagsLen 1) }}&middot;{{ end }}
+          {{- end -}}
+        </div>
+      {{- end -}}
+    {{- end -}}
+    </main>
+    {{- partial "footer.html" . -}}
   </body>
 </html>

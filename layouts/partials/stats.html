@@ -1,0 +1,22 @@
+<div class="stats-table">
+  <div class="stat">
+    <p>🍽️ Servings</p>
+    {{- .Params.servings | default "---"}} Servings
+  </div>
+  <div class="stat">
+    <p>⏲️ Prep time</p>
+    {{- .Params.prep_time | default "---"}}
+    {{ .Params.prep_increment | default "Minutes" | humanize -}}
+  </div>
+  <div class="stat">
+    <p>
+      {{- if (default .Params.cook true) -}}
+        🍳 Cooking Time
+      {{- else -}}
+        ❄️  Cooling Time
+      {{- end -}}
+    </p>
+    {{- .Params.cook_time | default "---" }}
+    {{ .Params.cook_increment | default "Minutes" | humanize -}}
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.stats-table {
+  display: flex;
+  flex-flow: row wrap;
+  border: solid 1px #dbdbdb;
+
+  .stat {
+    text-align: center;
+    margin: 1em 0.5em;
+    flex-grow: 1;
+
+    p {
+      margin: 0 0 1em;
+    }
+  }
+}

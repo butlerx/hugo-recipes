@@ -1,8 +1,6 @@
 # hugo-theme-recipes
 
-A theme for [Hugo](https://gohugo.io/) based on the
-[Gatsby Theme Recipes](https://github.com/mariiinda/gatsby-theme-recipes) theme
-for gatsby
+A theme for [Hugo](https://gohugo.io/) for managing a cookbook
 
 ## Quick Start
 
@@ -24,35 +22,17 @@ for gatsby
 
 ## Using this theme
 
-This theme adds two sections, recipes and components. The primary section you'll
-want to use is the recipes, as they form the panel listing on the front page, as
-well as most of the content. The components section is for recipes that form
-subcomponents of a recipe, allowing for a recipe to call on several components,
-and different recipes to reuse the same component, if desired.
-
-Note that this is a work in progress, so things may be broken or change in the
-future. Feel free to contribute or offer suggestions.
-
 ### Add a new recipe draft
 
 1. Navigate to the root directory of your website folder within a terminal
-2. Type `hugo new --kind recipe-bundle recipes/name-of-your-new-recipe-here`,
-   replacing `name-of-your-new-recipe-here` with the name of your recipe
+2. Type `hugo new name-of-your-new-recipe-here`, replacing
+   `name-of-your-new-recipe-here` with the name of your recipe
 
 - Note that the default template (archetype in Hugo vernacular) will replace the
   hypens in the provided name with spaces as the title and capitalize the first
   letter of each word. For example, if I were to enter the command
-  `hugo new --kind recipe-bundle recipes/hot-dog`, I would find a new folder at
-  `content/recipes/hot-dog`, and the title within the `index.md` file in that
-  folder would be `Hot Dog`.
-
-### Add a new recipe with components
-
-Similar to above, but instead of adding the recipes to the `content/recipes`
-directory, add the individual components to the `content/components` directory.
-Then add a new recipe as you normally would, and replace the instructions list
-with a components list, using the title (aka name) of the recipe, and modify the
-directions section as needed.
+  `hugo new hot-dog`, I would find a new folder at `content/hot-dog`,
+  and the title within the `index.md` file in that folder would be `Hot Dog`.
 
 ## License
 

@@ -1,0 +1,14 @@
+<nav role="navigation" aria-label="main navigation">
+  <ul>
+    {{ range.Site.Menus.main -}}
+      <li>
+        <a href="{{ .URL }}">
+          {{ if .Pre -}}
+            <span class=pre>{{ .Pre | safeHTML }}</span>
+          {{- end }}
+          <span class=menuname>{{ .Name | safeHTML }}</span>
+        </a>
+      </li>
+    {{ end }}
+  </ul>
+</nav>

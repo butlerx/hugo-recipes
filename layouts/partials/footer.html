@@ -1,14 +1,6 @@
 <footer>
-  <nav>
-    {{ with .Site.Menus.footer}}
-      {{ range . }}
-        <a
-          class="link"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="{{ .URL | relLangURL }}"
-        >{{ .Name }}</a>
-      {{ end }}
-    {{ end }}
-  </nav>
+  <p><a href="{{ .Site.BaseURL }}">{{ .Site.BaseURL }}</a></p>
+  <p>
+    <a href="/index.xml">Subscribe via RSS for New Recipes</a>
+  </p>
 </footer>
