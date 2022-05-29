@@ -97,3 +97,27 @@ footer {
     margin: 0.5em;
   }
 }
+
+.image {
+  img {
+    border-radius: 3%;
+    width: auto;
+    max-height: 32em;
+  }
+}
+
+.hero {
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 0.5fr;
+  margin: 1em;
+
+  .image {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+
+  .blurb {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+}

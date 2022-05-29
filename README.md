@@ -31,8 +31,8 @@ A theme for [Hugo](https://gohugo.io/) for managing a cookbook
 - Note that the default template (archetype in Hugo vernacular) will replace the
   hypens in the provided name with spaces as the title and capitalize the first
   letter of each word. For example, if I were to enter the command
-  `hugo new hot-dog`, I would find a new folder at `content/hot-dog`,
-  and the title within the `index.md` file in that folder would be `Hot Dog`.
+  `hugo new hot-dog`, I would find a new folder at `content/hot-dog`, and the
+  title within the `index.md` file in that folder would be `Hot Dog`.
 
 ## License
 

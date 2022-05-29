@@ -5,15 +5,19 @@
 
 {{ if isset .Params "recipe_image" -}}
   <figure class="image">
-    <img
-      src="{{ .Permalink | absURL }}{{ .Params.recipe_image }}"
-      alt="Recipe image"
-      style="border-radius: 3%; width: auto; max-height: 512px;"
-    />
+    <img src="{{ .Permalink | absURL }}{{ .Params.recipe_image }}" alt="Recipe image" />
   </figure>
 {{ end -}}
 
 {{ partial "stats" . }}
+
+<p>
+  {{- with .Params.date -}}
+    {{- dateFormat "January 2, 2006" . | printf "%s | " -}}
+  {{- end -}}
+  {{ .Params.author | default .Site.Author.name -}}
+</p>
+
 
 {{ .Content }}
 
