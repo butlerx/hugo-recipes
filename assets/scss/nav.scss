@@ -1,0 +1,19 @@
+@use "colours";
+@use "responsive";
+
+nav {
+  @include responsive.pageBase;
+  @include responsive.margin($bottom: 2rem, $top: 1rem);
+
+  a {
+    &.path {
+      color: colours.base("0d");
+    }
+  }
+
+  span {
+    &.caret {
+      color: colours.base("07");
+    }
+  }
+}

@@ -1,16 +1,17 @@
 {{ define "main" }}
-<header>
-  <h1>{{ .Title | title  }}</h1>
-</header>
+<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
+  <h1 class="headline" itemprop="headline">{{ .Title | title }}</h1>
 
-{{ .Content }}
+  <section class="body" itemprop="articleBody">
+    {{ .Content }}
 
-<ul class="article-list">
-  {{ range.Pages -}}
-    <li>
-      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-    </li>
-  {{ end -}}
-</ul>
-
+    <ul class="article-list">
+      {{ range.Pages -}}
+        <li>
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </li>
+      {{ end -}}
+    </ul>
+  </section>
+</article>
 {{ end }}

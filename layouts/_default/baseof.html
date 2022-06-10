@@ -3,24 +3,12 @@
   lang="{{ .Site.Language }}"
   prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"
 >
-  {{- partial "head.html" . -}}
+  {{- partial "head" . -}}
   <body>
-    {{ partial "nav.html" . }}
+    {{ partial "nav" . }}
     <main>
-    {{- block "main" . }}{{ end }}
-    {{ if isset .Params "tags" -}}
-      {{ $tagsLen := len .Params.tags -}}
-      {{ if gt $tagsLen 0 -}}
-        <div class=tag-list>
-          See related:</br>
-          {{ range $k, $v := .Params.tags }}
-            <a href="{{ printf "tags/%s" (. | urlize | lower) | absURL }}">{{ . | title }}</a>
-            {{ if lt $k (sub $tagsLen 1) }}&middot;{{ end }}
-          {{- end -}}
-        </div>
-      {{- end -}}
-    {{- end -}}
+      {{- block "main" . }}{{ end }}
     </main>
-    {{- partial "footer.html" . -}}
+    {{- partial "footer" . -}}
   </body>
 </html>

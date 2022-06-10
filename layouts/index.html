@@ -1,41 +1,42 @@
 {{ define "main" }}
-<header>
-  <h1>🍲 {{ .Site.Title | title }} 🍳</h1>
-</header>
+<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
+  <h1 class="headline" itemprop="headline">🍲 {{ .Site.Title | title }} 🍳</h1>
 
-<h2>Categories</h2>
-{{- if isset .Site.Taxonomies "tags" -}}
-  {{- if not (eq (len .Site.Taxonomies.tags) 0) -}}
-    <div id="tag-cloud">
-      {{ range $name, $items := .Site.Taxonomies.tags -}}
-        <a
-          href="{{ printf "%s/%s" "tags" ($name | urlize | lower) | absURL }}"
-          id="tag_{{ $name }}"
-        >{{ $name | title }}</a>
-      {{ end }}
+  <section class="body" itemprop="articleBody">
+    <h2>Categories</h2>
+    {{- if isset .Site.Taxonomies "tags" -}}
+      {{- if not (eq (len .Site.Taxonomies.tags) 0) -}}
+        <div id="tag-cloud">
+          {{ range $name, $items := .Site.Taxonomies.tags -}}
+            <a
+              href="{{ printf "%s/%s" "tags" ($name | urlize | lower) | absURL }}"
+              id="tag_{{ $name }}"
+            >{{ $name | title }}</a>
+          {{ end }}
+        </div>
+      {{- end -}}
+    {{- end -}}
+
+    <div class="hero">
+      <figure class="image">
+        {{- $icon := resources.Get "images/icon.png" -}}
+        <img
+          src="{{ $icon.RelPermalink }}"
+          alt="Hero image"
+        />
+      </figure>
+      <div class="blurb">
+        {{- with .Site.Params.description | markdownify -}}{{ . }}{{- end -}}
+        {{- with .Content -}}{{ . }}{{- end -}}
+      </div>
     </div>
-  {{- end -}}
-{{- end -}}
 
-<div class="hero">
-  <figure class="image">
-    {{- $icon := resources.Get "images/icon.png" -}}
-    <img
-      src="{{ $icon.RelPermalink }}"
-      alt="Hero image"
-    />
-  </figure>
-  <div class="blurb">
-    {{- with .Site.Params.description | markdownify -}}{{ . }}{{- end -}}
-    {{- with .Content -}}{{ . }}{{- end -}}
-  </div>
-</div>
-
-
-<h2>All Recipes</h2>
-<ul class="article-list">
-  {{ range.Site.RegularPages }}
-    <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
-  {{ end }}
-</ul>
+    <h2>All Recipes</h2>
+    <ul class="article-list">
+      {{ range.Site.RegularPages }}
+        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+      {{ end }}
+    </ul>
+  </section>
+</article>
 {{ end }}

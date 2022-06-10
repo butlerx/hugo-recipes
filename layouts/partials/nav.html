@@ -1,14 +1,17 @@
 <nav role="navigation" aria-label="main navigation">
-  <ul>
-    {{ range.Site.Menus.main -}}
-      <li>
-        <a href="{{ .URL }}">
-          {{ if .Pre -}}
-            <span class=pre>{{ .Pre | safeHTML }}</span>
+  <div class="container clearfix">
+    <a class="path" href="{{ .Site.BaseURL }}">[{{ .Site.Title }}]</a>
+    <span class="caret">#_</span>
+    <div class="right">
+      {{ range $i, $page := .Site.Menus.main -}}
+        {{ if not (eq $i 0) }}|{{ end }}
+        <a class="path" href="{{ $page.URL }}">
+          {{ with $page.Pre -}}
+            <span class=pre>{{ . | safeHTML }}</span>
           {{- end }}
-          <span class=menuname>{{ .Name | safeHTML }}</span>
+          <span class=menuname>{{ $page.Name | safeHTML }}</span>
         </a>
-      </li>
-    {{ end }}
-  </ul>
+      {{ end }}
+    </div>
+  </div>
 </nav>
