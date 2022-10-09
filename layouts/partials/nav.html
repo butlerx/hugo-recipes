@@ -1,7 +1,6 @@
 <nav role="navigation" aria-label="main navigation">
   <div class="container clearfix">
-    <a class="path" href="{{ .Site.BaseURL }}">[{{ .Site.Title }}]</a>
-    <span class="caret">#_</span>
+    <a class="path" href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
     <div class="right">
       {{ range $i, $page := .Site.Menus.main -}}
         {{ if not (eq $i 0) }}|{{ end }}
