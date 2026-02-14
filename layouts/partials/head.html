@@ -4,60 +4,122 @@
   </title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  {{- $image := resources.Get "images/icon.png" -}}
-  {{- $favicon := $image.Resize "32x32" -}}
-  <link
-    rel="shortcut icon"
-    type="image/x-icon"
-    href="{{ $favicon.RelPermalink }}"
-  />
-  <link
-    rel="icon"
-    type="image/x-icon"
-    href="{{ $favicon.RelPermalink }}"
-  />
-  {{- $options := dict "transpiler" "dartsass" "targetPath" "styles.css" "outputStyle" "compressed" }}
-  {{- $style := resources.Get "scss/main.scss" | resources.ToCSS $options | resources.Fingerprint "sha512" }}
+
+  {{- /* --- Favicons & Touch Icons --- */ -}}
+  {{- $icon := resources.Get "images/icon.png" -}}
+  {{- $favicon := $icon.Resize "32x32" -}}
+  {{- $apple := $icon.Resize "180x180" -}}
+  {{- $icon192 := $icon.Resize "192x192" -}}
+  {{- $icon512 := $icon.Resize "512x512" -}}
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ $favicon.RelPermalink }}" />
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ $icon192.RelPermalink }}" />
+  <link rel="icon" type="image/png" sizes="512x512" href="{{ $icon512.RelPermalink }}" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ $apple.RelPermalink }}" />
+
+  {{- /* --- Stylesheet --- */ -}}
+  {{- $style := resources.Get "css/main.css" | minify | fingerprint "sha512" }}
   <link
     rel="stylesheet"
     href="{{ $style.RelPermalink }}"
     type="text/css"
-    {{/* integrity="{{ $style.Data.Integrity }}" */}}
+    integrity="{{ $style.Data.Integrity }}"
     crossorigin="anonymous"
   />
-  {{- with .Params.tags -}}
-    <meta name="keywords" content="{{ delimit . "," }}">
-  {{- end -}}
-  {{- with .Site.Params.description -}}
-    <meta name="description" content="{{ . }}" />
-  {{- end -}}
-  {{ with  .OutputFormats.Get "rss" -}}
-    <link
-      rel="{{ .Rel }}"
-      type="{{ .MediaType.Type }}"
-      title="{{ $.Site.Title }} RSS "
-      href="{{ .Permalink }}"
-     />
-  {{ end -}}
 
-  <base href="{{ .Site.BaseURL }}">
-  <link rel="canonical" href="{{ .Permalink | absURL }}">
+  {{- /* --- SEO Meta --- */ -}}
+  {{- $description := "" -}}
+  {{- if .IsPage -}}
+    {{- $description = .Summary | plainify | truncate 160 -}}
+  {{- end -}}
+  {{- if not $description -}}
+    {{- $description = .Site.Params.description -}}
+  {{- end -}}
+  {{- with $description }}
+    <meta name="description" content="{{ . }}" />
+  {{- end }}
+  {{- with .Params.tags }}
+    <meta name="keywords" content="{{ delimit . ", " }}" />
+  {{- end }}
+  {{- with .Site.Params.author.name }}
+    <meta name="author" content="{{ . }}" />
+  {{- end }}
+  <link rel="canonical" href="{{ .Permalink }}" />
+
+  {{- /* --- RSS --- */ -}}
+  {{- with .OutputFormats.Get "rss" }}
+  <link
+    rel="{{ .Rel }}"
+    type="{{ .MediaType.Type }}"
+    title="{{ $.Site.Title }} RSS"
+    href="{{ .Permalink }}"
+  />
+  {{- end }}
+
+  {{- /* --- Open Graph --- */ -}}
+  <meta property="og:title" content="{{ if not .IsHome }}{{ .Title | title }}{{ else }}{{ .Site.Title }}{{ end }}" />
+  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:locale" content="{{ .Site.Language.Lang }}" />
+  {{- with $description }}
+    <meta property="og:description" content="{{ . }}" />
+  {{- end }}
+  {{- with .Site.Title }}
+    <meta property="og:site_name" content="{{ . }}" />
+  {{- end }}
+  {{- with .Params.images }}
+    {{- range . }}
+      <meta property="og:image" content="{{ . | absURL }}" />
+      <meta property="og:image:alt" content="{{ $.Title }}" />
+    {{- end }}
+  {{- end }}
+  {{- if .IsPage }}
+    <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" />
+  {{- end }}
+
+  {{- /* --- Fediverse (Mastodon, etc.) --- */ -}}
+  {{- with .Site.Params.author.fediverse }}
+    <meta name="fediverse:creator" content="{{ . }}" />
+  {{- end }}
+
+  {{- /* --- PWA --- */ -}}
   <link rel="manifest" href="{{ absURL "manifest.json" }}" />
   <meta name="theme-color" content="{{ .Site.Params.theme }}" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="{{ .Site.Params.theme }}" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="mobile-web-app-capable" content="yes" />
 
-  <script type="application/ld+json">
-    {
-      "@context" : "http://schema.org",
-      "@type" : "Recipe",
-      "image" : {{ apply .Params.images "absURL" "." }},
-      "name": "{{- if .Params.title -}} {{- .Params.title -}} {{- else -}} {{- .Site.Title }} {{- end -}}"
-    }
-  </script>
-
-  {{- with .Site.Author.name -}}
-    <meta name="author" content="{{ . }}" />
-  {{- end -}}
+  {{- /* --- Schema.org JSON-LD (Recipe pages only) --- */ -}}
+  {{- if .IsPage }}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Recipe",
+        "name": {{ .Title | jsonify }},
+        "author": {
+          "@type": "Person",
+          "name": {{ (.Params.author | default .Site.Params.author.name) | jsonify }}
+        },
+        "datePublished": "{{ .Date.Format "2006-01-02" }}",
+        "description": {{ .Summary | plainify | truncate 200 | jsonify }}
+        {{- with .Params.images }},
+          "image": [{{ range $i, $img := . }}{{ if $i }}, {{ end }}{{ $img | absURL | jsonify }}{{ end }}]
+        {{- end }}
+        {{- with .Params.servings }},
+          "recipeYield": "{{ . }} servings"
+        {{- end }}
+        {{- with .Params.prep_time }},
+          "prepTime": "PT{{ . }}{{ if eq ($.Params.prep_increment | default "minutes") "hours" }}H{{ else }}M{{ end }}"
+        {{- end }}
+        {{- if .Params.cook }}
+          {{- with .Params.cook_time }},
+            "cookTime": "PT{{ . }}{{ if eq ($.Params.cook_increment | default "minutes") "hours" }}H{{ else }}M{{ end }}"
+          {{- end }}
+        {{- end }}
+        {{- with .Params.tags }},
+          "recipeCategory": {{ index . 0 | jsonify }},
+          "keywords": {{ delimit . ", " | jsonify }}
+        {{- end }}
+      }
+    </script>
+  {{- end }}
 </head>

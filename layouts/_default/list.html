@@ -1,17 +1,29 @@
 {{ define "main" }}
-<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
-  <h1 class="headline" itemprop="headline">{{ .Title | title }}</h1>
+<div class="tags-page">
+  <h1>{{ .Title | title }}</h1>
 
-  <section class="body" itemprop="articleBody">
-    {{ .Content }}
-
-    <ul class="article-list">
-      {{ range.Pages -}}
-        <li>
-          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-        </li>
-      {{ end -}}
-    </ul>
-  </section>
-</article>
+  <div class="recipe-grid">
+    {{ range .Pages.ByTitle -}}
+      <a class="recipe-card" href="{{ .Permalink }}">
+        <h3>{{ .Title }}</h3>
+        {{ $page := . -}}
+        <div class="recipe-card-meta">
+          {{- with .Params.prep_time -}}
+            <span>🕐 {{ . }} {{ $page.Params.prep_increment | default "min" }}</span>
+          {{- end -}}
+          {{- with $page.Params.servings -}}
+            <span>🍽️ {{ . }} servings</span>
+          {{- end -}}
+        </div>
+        {{- with $page.Params.tags }}
+          <div class="recipe-card-tags">
+            {{ range . -}}
+              <span class="recipe-card-tag">{{ . | title }}</span>
+            {{ end -}}
+          </div>
+        {{- end }}
+      </a>
+    {{ end -}}
+  </div>
+</div>
 {{ end }}

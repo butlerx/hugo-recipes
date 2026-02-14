@@ -1,0 +1,48 @@
+{{ define "main" }}
+<div class="tags-page">
+  <h1>{{ .Title | title }}</h1>
+
+  <details class="tags-page-cloud">
+    <summary>Browse all {{ len .Pages }} tags</summary>
+    <div class="tag-cloud">
+      {{ range .Pages.ByTitle -}}
+        <a class="tag-pill" href="{{ .RelPermalink }}">
+          {{- .LinkTitle | title -}}
+          <span class="tag-count">{{ .Pages.Len }}</span>
+        </a>
+      {{ end }}
+    </div>
+  </details>
+
+  {{ range .Pages.ByTitle -}}
+    <section class="tags-page-section">
+      <h2>
+        <a href="{{ .RelPermalink }}">{{ .Title | title }}</a>
+      </h2>
+      <div class="recipe-grid">
+        {{ range .Pages.ByTitle -}}
+          <a class="recipe-card" href="{{ .Permalink }}">
+            <h3>{{ .Title }}</h3>
+            {{ $page := . -}}
+            <div class="recipe-card-meta">
+              {{- with .Params.prep_time -}}
+                <span>🕐 {{ . }} {{ $page.Params.prep_increment | default "min" }}</span>
+              {{- end -}}
+              {{- with $page.Params.servings -}}
+                <span>🍽️ {{ . }} servings</span>
+              {{- end -}}
+            </div>
+            {{- with $page.Params.tags }}
+              <div class="recipe-card-tags">
+                {{ range . -}}
+                  <span class="recipe-card-tag">{{ . | title }}</span>
+                {{ end -}}
+              </div>
+            {{- end }}
+          </a>
+        {{ end -}}
+      </div>
+    </section>
+  {{ end -}}
+</div>
+{{ end }}

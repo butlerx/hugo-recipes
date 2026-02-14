@@ -1,3 +1,3 @@
 module github.com/butlerx/hugo-recipes
 
-go 1.19
+go 1.22

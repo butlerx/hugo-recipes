@@ -1,14 +1,25 @@
+{{- $icon := resources.Get "images/icon.png" -}}
+{{- $icon192 := $icon.Resize "192x192" -}}
+{{- $icon512 := $icon.Resize "512x512" -}}
 {
   "name": "{{ .Site.Title }}",
   "short_name": "{{ .Site.Title }}",
-  "icons": [],
+  "icons": [
+    {
+      "src": "{{ $icon192.RelPermalink }}",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "{{ $icon512.RelPermalink }}",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
   "start_url": "/",
   "display": "standalone",
-  "default_locale": "en",
   "orientation": "portrait",
   "background_color": "{{ .Site.Params.theme }}",
   "theme_color": "{{ .Site.Params.theme }}",
-  "description": "{{ .Site.Params.description }}",
-  "author": "{{ .Site.Author.Name }}",
-  "manifest_version": 2
+  "description": "{{ .Site.Params.description }}"
 }

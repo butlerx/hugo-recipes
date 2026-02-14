@@ -1,32 +1,32 @@
 {{ define "main" }}
-<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="meta">
-    {{ if not .Page.Date.IsZero }}
-      <span class="key">published on</span>
-      <span class="val"><time itemprop="datePublished" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 02, 2006" }}</time></span>
-    {{ end }}
-    <br>
-    <span class="key">author:</span>
-    <span class="val">{{ .Params.author | default .Site.Author.name -}}</span>
+<article class="recipe" itemscope itemtype="https://schema.org/Recipe">
+  <header class="recipe-header">
+    <h1 class="recipe-title" itemprop="name">{{ .Title | title }}</h1>
+    <div class="recipe-meta">
+      {{ if not .Page.Date.IsZero }}
+        <span class="recipe-meta-item">
+          <time itemprop="datePublished" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 02, 2006" }}</time>
+        </span>
+      {{ end }}
+      <span class="recipe-meta-item" itemprop="author">{{ .Params.author | default .Site.Params.author.name }}</span>
+    </div>
     {{ with .Params.tags }}
-      <br>
-      <span class="key">tags:</span>
-      <span class="val">
-        {{ $tagsLen := len . -}}
-        {{ range $k, $v := . }}
-          <a href="{{ . | urlize | lower | printf "tags/%s" | relURL }}">{{ . | title }}</a>
-          {{ if lt $k (sub $tagsLen 1) }}&middot;{{ end }}
-        {{- end -}}
-      </span>
+      <div class="recipe-tags">
+        {{ range . -}}
+          <a class="tag-pill" href="{{ . | urlize | lower | printf "tags/%s" | relURL }}">{{ . | title }}</a>
+        {{ end -}}
+      </div>
     {{ end }}
-  </div>
-  <h1 class="headline" itemprop="headline">{{ .Title | title }}</h1>
-  <section class="body" itemprop="articleBody">
-    {{ if isset .Params "recipe_image" -}}
-      <figure class="image">
-        <img src="{{ .Permalink | absURL }}{{ .Params.recipe_image }}" alt="Recipe image" />
-      </figure>
-    {{ end -}}
+  </header>
+
+  <section class="recipe-body" itemprop="articleBody">
+    {{ with .Params.recipe_image -}}
+      {{ with $.Resources.GetMatch . -}}
+        <figure class="recipe-image">
+          <img src="{{ .RelPermalink }}" alt="Recipe image" itemprop="image" />
+        </figure>
+      {{- end }}
+    {{- end -}}
 
     {{ partial "stats" . }}
 

@@ -1,6 +1,8 @@
 <footer>
   <p><a href="{{ .Site.BaseURL }}">{{ .Site.BaseURL }}</a></p>
+  {{- with .OutputFormats.Get "rss" }}
   <p>
-    <a href="/index.xml">Subscribe via RSS for New Recipes</a>
+    <a href="{{ .Permalink }}">Subscribe via RSS for New Recipes</a>
   </p>
+  {{- end }}
 </footer>

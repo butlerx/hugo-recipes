@@ -1,42 +1,60 @@
 {{ define "main" }}
-<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
-  <h1 class="headline" itemprop="headline">🍲 {{ .Site.Title | title }} 🍳</h1>
-
-  <section class="body" itemprop="articleBody">
-    <div class="hero">
-      <figure class="image">
-        {{- $icon := resources.Get "images/icon.png" -}}
-        <img
-          src="{{ $icon.RelPermalink }}"
-          alt="Hero image"
-        />
-      </figure>
-      <div class="blurb">
-        {{- with .Site.Params.description | markdownify -}}{{ . }}{{- end -}}
-        {{- with .Content -}}{{ . }}{{- end -}}
-      </div>
-    </div>
-
-    <h2>All Recipes</h2>
-    <ul class="article-list">
-      {{ range.Site.RegularPages }}
-        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
-      {{ end }}
-    </ul>
-
-    <h2>Categories</h2>
-    {{- if isset .Site.Taxonomies "tags" -}}
-      {{- if not (eq (len .Site.Taxonomies.tags) 0) -}}
-        <div id="tag-cloud">
-          {{ range $name, $items := .Site.Taxonomies.tags -}}
-            <a
-              href="{{ printf "%s/%s" "tags" ($name | urlize | lower) | absURL }}"
-              id="tag_{{ $name }}"
-            >{{ $name | title }}</a>
-          {{ end }}
-        </div>
-      {{- end -}}
+<div class="homepage">
+  <section class="homepage-hero">
+    {{- $icon := resources.Get "images/icon.png" -}}
+    {{- with $icon -}}
+      <img class="homepage-hero-icon" src="{{ .RelPermalink }}" alt="{{ $.Site.Title }}" />
     {{- end -}}
+    <h1>{{ .Site.Title }}</h1>
+    {{- with .Site.Params.description | markdownify -}}
+      <p class="homepage-hero-desc">{{ . }}</p>
+    {{- end -}}
+    {{- with .Content -}}{{ . }}{{- end -}}
   </section>
-</article>
+
+  {{- if isset .Site.Taxonomies "tags" -}}
+    {{- if not (eq (len .Site.Taxonomies.tags) 0) -}}
+      <section class="homepage-section">
+        <details class="homepage-tag-cloud">
+          <summary>Browse all {{ len .Site.Taxonomies.tags }} tags</summary>
+          <div class="tag-cloud">
+            {{ range .Site.Taxonomies.tags.Alphabetical -}}
+              <a class="tag-pill" href="{{ .Page.RelPermalink }}">
+                {{- .Page.LinkTitle | title -}}
+                <span class="tag-count">{{ .Count }}</span>
+              </a>
+            {{ end }}
+          </div>
+        </details>
+      </section>
+    {{- end -}}
+  {{- end -}}
+
+  <section class="homepage-section">
+    <h2>All Recipes</h2>
+    <div class="recipe-grid">
+      {{ range .Site.RegularPages.ByTitle }}
+        <a class="recipe-card" href="{{ .Permalink }}">
+          <h3>{{ .Title }}</h3>
+          {{ $page := . -}}
+          <div class="recipe-card-meta">
+            {{- with .Params.prep_time -}}
+              <span>🕐 {{ . }} {{ $page.Params.prep_increment | default "min" }}</span>
+            {{- end -}}
+            {{- with $page.Params.servings -}}
+              <span>🍽️ {{ . }} servings</span>
+            {{- end -}}
+          </div>
+          {{- with $page.Params.tags }}
+            <div class="recipe-card-tags">
+              {{ range . -}}
+                <span class="recipe-card-tag">{{ . | title }}</span>
+              {{ end -}}
+            </div>
+          {{- end }}
+        </a>
+      {{ end }}
+    </div>
+  </section>
+</div>
 {{ end }}
