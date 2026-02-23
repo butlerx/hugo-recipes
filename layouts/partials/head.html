@@ -1,6 +1,6 @@
 <head>
   <title>
-    {{ if not .IsHome }}{{ .Title | title }} | {{ end }}{{ .Site.Title }}
+    {{ if not .IsHome }}{{ .Title | title }} |{{ end }}{{ .Site.Title }}
   </title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,12 +47,7 @@
 
   {{- /* --- RSS --- */ -}}
   {{- with .OutputFormats.Get "rss" }}
-  <link
-    rel="{{ .Rel }}"
-    type="{{ .MediaType.Type }}"
-    title="{{ $.Site.Title }} RSS"
-    href="{{ .Permalink }}"
-  />
+    <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }} RSS" href="{{ .Permalink }}" />
   {{- end }}
 
   {{- /* --- Open Graph --- */ -}}

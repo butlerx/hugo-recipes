@@ -1,6 +1,12 @@
-singleQuote = true
+singleQuote   = true
 trailingComma = "all"
-proseWrap = "always"
-printWidth = 80
-endOfLine = "lf"
-tabWidth = 2
+proseWrap     = "always"
+printWidth    = 120
+endOfLine     = "lf"
+tabWidth      = 2
+plugins       = ["prettier-plugin-go-template"]
+
+[[overrides]]
+files = ["layouts/**/*.html"]
+[overrides.options]
+parser = "go-template"

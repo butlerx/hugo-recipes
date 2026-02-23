@@ -1,3 +1,6 @@
-layouts
 resources
 public
+
+# Hugo Go-template JSON outputs (not parseable as JSON or go-template HTML)
+layouts/_default/home.manifest.json
+*.toml

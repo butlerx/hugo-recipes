@@ -1,29 +1,29 @@
 {{ define "main" }}
-<div class="tags-page">
-  <h1>{{ .Title | title }}</h1>
+  <div class="tags-page">
+    <h1>{{ .Title | title }}</h1>
 
-  <div class="recipe-grid">
-    {{ range .Pages.ByTitle -}}
-      <a class="recipe-card" href="{{ .Permalink }}">
-        <h3>{{ .Title }}</h3>
-        {{ $page := . -}}
-        <div class="recipe-card-meta">
-          {{- with .Params.prep_time -}}
-            <span>🕐 {{ . }} {{ $page.Params.prep_increment | default "min" }}</span>
-          {{- end -}}
-          {{- with $page.Params.servings -}}
-            <span>🍽️ {{ . }} servings</span>
-          {{- end -}}
-        </div>
-        {{- with $page.Params.tags }}
-          <div class="recipe-card-tags">
-            {{ range . -}}
-              <span class="recipe-card-tag">{{ . | title }}</span>
-            {{ end -}}
+    <div class="recipe-grid">
+      {{ range .Pages.ByTitle -}}
+        <a class="recipe-card" href="{{ .Permalink }}">
+          <h3>{{ .Title }}</h3>
+          {{ $page := . -}}
+          <div class="recipe-card-meta">
+            {{- with .Params.prep_time -}}
+              <span>🕐 {{ . }} {{ $page.Params.prep_increment | default "min" }}</span>
+            {{- end -}}
+            {{- with $page.Params.servings -}}
+              <span>🍽️ {{ . }} servings</span>
+            {{- end -}}
           </div>
-        {{- end }}
-      </a>
-    {{ end -}}
+          {{- with $page.Params.tags }}
+            <div class="recipe-card-tags">
+              {{ range . -}}
+                <span class="recipe-card-tag">{{ . | title }}</span>
+              {{ end -}}
+            </div>
+          {{- end }}
+        </a>
+      {{ end -}}
+    </div>
   </div>
-</div>
 {{ end }}

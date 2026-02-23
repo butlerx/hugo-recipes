@@ -1,0 +1,17 @@
+[formatting]
+align_comments       = true
+align_entries        = true
+allowed_blank_lines  = 2
+array_auto_collapse  = true
+array_auto_expand    = true
+array_trailing_comma = true
+column_width         = 120
+compact_entries      = false
+indent_string        = "  "
+reorder_arrays       = false
+reorder_keys         = false
+trailing_newline     = true
+
+[[rule]]
+keys       = ["tools"]
+formatting = { reorder_keys = true }

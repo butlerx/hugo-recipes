@@ -1,34 +1,34 @@
-title = "My Family Cookbook"
-baseURL = "https://example.com/"
-languageCode = "en-us"
-enableGitInfo = true
+title            = "My Family Cookbook"
+baseURL          = "https://example.com/"
+languageCode     = "en-us"
+enableGitInfo    = true
 sectionPagesMenu = "main"
-theme = ["github.com/butlerx/hugo-recipes"]
+theme            = ["github.com/butlerx/hugo-recipes"]
 
 [pagination]
 pagerSize = 20
 
 [params]
 description = "A collection of our favourite family recipes."
-theme = "#151515"
+theme       = "#151515"
 
 [params.author]
-name = "Home Chef"
+name      = "Home Chef"
 fediverse = "@homechef@mastodon.social"
 
 [[menu.main]]
-name = "Home"
-url = "/"
+name   = "Home"
+url    = "/"
 weight = 1
 
 [[menu.main]]
-name = "Tags"
-url = "/tags/"
+name   = "Tags"
+url    = "/tags/"
 weight = 2
 
 [module]
 [module.hugoVersion]
 min = "0.128.0"
 [[module.imports]]
-path = "github.com/butlerx/hugo-recipes"
+path    = "github.com/butlerx/hugo-recipes"
 disable = false

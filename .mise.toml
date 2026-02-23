@@ -1,0 +1,42 @@
+[tools]
+node  = "lts"
+taplo = "latest"
+
+[settings]
+experimental = true
+lockfile     = true
+
+[hooks]
+enter = 'npm install --no-package-lock'
+
+[tasks.check]
+description = "Run all checks"
+depends     = ["format:check", "lint"]
+
+[tasks.format]
+description = "Format files"
+depends     = ["format:toml", "lint:fix"]
+run         = 'npx prettier --write .'
+
+[tasks."format:check"]
+description = "Check formatting"
+depends     = ["format:toml:check"]
+run         = 'npx prettier --check .'
+
+[tasks."format:toml"]
+description = "Format TOML files"
+run         = 'taplo format'
+
+[tasks."format:toml:check"]
+description = "Check TOML formatting"
+run         = 'taplo format --check'
+
+[tasks.lint]
+description = "Run CSS linter"
+quiet       = true
+run         = 'npx stylelint "assets/css/**/*.css"'
+
+[tasks."lint:fix"]
+description = "Run CSS linter (fixer)"
+quiet       = true
+run         = 'npx stylelint --fix "assets/css/**/*.css"'

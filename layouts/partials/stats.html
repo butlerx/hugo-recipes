@@ -10,12 +10,8 @@
     <span class="stats-value">{{ .Params.prep_time | default "—" }} {{ .Params.prep_increment | default "min" }}</span>
   </div>
   <div class="stats-card">
-    <span class="stats-icon">
-      {{- if (default true .Params.cook) -}}🍳{{- else -}}❄️{{- end -}}
-    </span>
-    <span class="stats-label">
-      {{- if (default true .Params.cook) -}}Cook Time{{- else -}}Cool Time{{- end -}}
-    </span>
+    <span class="stats-icon"> {{- if (default true .Params.cook) -}}🍳{{- else -}}❄️{{- end -}} </span>
+    <span class="stats-label"> {{- if (default true .Params.cook) -}}Cook Time{{- else -}}Cool Time{{- end -}} </span>
     <span class="stats-value">{{ .Params.cook_time | default "—" }} {{ .Params.cook_increment | default "min" }}</span>
   </div>
 </div>
