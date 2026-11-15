@@ -1,35 +1,47 @@
 [tools]
-node  = "lts"
-taplo = "latest"
+hugo       = "latest"
+node       = "lts"
+prek       = "latest"
+shellcheck = "latest"
+tombi      = "1.11.2"  # matches tombi-pre-commit rev in prek.toml
+zizmor     = "latest"
 
 [settings]
 experimental = true
 lockfile     = true
 
 [hooks]
-enter = 'npm install --no-package-lock'
+enter = "npm install --no-package-lock"
 
 [tasks.check]
 description = "Run all checks"
-depends     = ["format:check", "lint"]
+depends     = ["format:check", "lint", "check:actions"]
+
+[tasks.hooks]
+description = "Install the prek git hooks"
+run         = "prek install --install-hooks --hook-type pre-commit --hook-type commit-msg"
+
+[tasks."check:actions"]
+description = "Lint GitHub Actions workflows"
+run         = "zizmor --no-progress .github"
 
 [tasks.format]
 description = "Format files"
 depends     = ["format:toml", "lint:fix"]
-run         = 'npx prettier --write .'
+run         = "npx prettier --write ."
 
 [tasks."format:check"]
 description = "Check formatting"
 depends     = ["format:toml:check"]
-run         = 'npx prettier --check .'
+run         = "npx prettier --check ."
 
 [tasks."format:toml"]
 description = "Format TOML files"
-run         = 'taplo format'
+run         = "tombi format"
 
 [tasks."format:toml:check"]
 description = "Check TOML formatting"
-run         = 'taplo format --check'
+run         = "tombi format --check"
 
 [tasks.lint]
 description = "Run CSS linter"
