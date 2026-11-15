@@ -3,7 +3,7 @@ hugo       = "latest"
 node       = "lts"
 prek       = "latest"
 shellcheck = "latest"
-tombi      = "1.2.4"   # matches tombi-pre-commit rev in prek.toml
+tombi      = "1.11.2"  # matches tombi-pre-commit rev in prek.toml
 zizmor     = "latest"
 
 [settings]
