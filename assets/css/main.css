@@ -40,11 +40,11 @@ body {
 ::-webkit-scrollbar {
   width: 0.66vw;
   background-color: var(--base-00);
+}
 
-  &-thumb {
-    background-color: var(--base-02);
-    border-radius: 0.4em;
-  }
+::-webkit-scrollbar-thumb {
+  background-color: var(--base-02);
+  border-radius: 0.4em;
 }
 
 a {
