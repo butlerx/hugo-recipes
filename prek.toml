@@ -5,7 +5,8 @@
 [[repos]]
 repo  = "https://github.com/pre-commit/pre-commit-hooks"
 rev   = "3e8a8703264a2f4a69428a0aa4dcb512790b2c8c"
-hooks = [{ id = "trailing-whitespace" }, { id = "end-of-file-fixer" }, { id = "check-yaml" }, { id = "check-json", exclude = "^layouts/" }, { id = "check-merge-conflict" }, { id = "check-added-large-files", exclude = "(?x).png" }]
+# home.manifest.json is a Hugo Go template, not JSON
+hooks = [{ id = "trailing-whitespace" }, { id = "end-of-file-fixer" }, { id = "check-yaml" }, { id = "check-json", exclude = "^layouts/_default/home\\.manifest\\.json$" }, { id = "check-merge-conflict" }, { id = "check-added-large-files", exclude = "(?x).png" }]
 
 [[repos]]
 repo  = "https://github.com/tombi-toml/tombi-pre-commit"
