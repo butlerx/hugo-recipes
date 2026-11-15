@@ -11,7 +11,6 @@ hooks = [{ id = "trailing-whitespace" }, { id = "end-of-file-fixer" }, { id = "c
 [[repos]]
 repo  = "https://github.com/tombi-toml/tombi-pre-commit"
 rev   = "6f428aba5ced98b5a579ff23cab6b39822b4347d"        # v1.11.2
-# hugo.toml: pre-existing tombi-lint schema errors (hugo taxonomy keys); TODO: burn down
 hooks = [{ id = "tombi-format" }, { id = "tombi-lint" }]
 
 [[repos]]
